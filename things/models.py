@@ -1,22 +1,9 @@
-from statistics import quantiles
-from django.core.validators import MinValueValidator, MaxValueValidator
+from enum import unique
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.core.validators import MinValueValidator, MaxValueValidator
 
-class Thing (AbstractUser):
-    name = models.CharField(
-        max_length = 30,
-        unique=True,
-        blank=False,
-    )
-    description = models.CharField(
-        max_length = 120,
-        unique=False,
-        blank=True,
-    )
-    quantity = models.IntegerField(
-        validators=[
-            MinValueValidator(0),
-            MaxValueValidator(100),
-        ]
-    )
+# Create your models here.
+class Thing(models.Model):
+    name = models.CharField(max_length=30, blank=False, unique=True)
+    description = models.CharField(max_length=120, blank=True, unique=False)
+    quantity = models.PositiveIntegerField(unique=False, validators=[MinValueValidator(0), MaxValueValidator(100)])
